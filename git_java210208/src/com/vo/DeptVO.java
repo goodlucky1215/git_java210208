@@ -16,7 +16,6 @@ package com.vo;
  * <인스턴스화 하는 이유>
  * DeptVO dvo = new DeptVO();
  * dvo = new DeptVO();
- * dvo = new DeptVO();
  * 이것은 합법인가?
  * 어떻게 다른걸까?
  * 어떤 방법이 더 좋은걸까?
