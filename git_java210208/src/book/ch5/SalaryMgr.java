@@ -75,7 +75,27 @@ public class SalaryMgr implements ActionListener {
 	public static void main(String[] args) {
 		new SalaryMgr();
 	}
-
+	public void getEmpDetail(int pempno) {
+		EmpVO  eVO = new EmpVO();
+		eVO.setEname("이순신");
+		DeptVO dVO = new DeptVO();
+		dVO.setDname("개발1팀");
+		eVO.setdVO(dVO); //얘가 핵심 부분!!!!!!!!!!!!!!!!!!!**
+		//java.util에서 제공되는 클래스로 타입에 대한 제약없이 늘었다줄었다함.
+		//연관있는 레코드를 한번에 밀어넣기 위해서 사용함.
+		/*
+		Vector oneRow = new Vector();
+		oneRow.addElement(eVO.getEname());
+		oneRow.addElement(eVO.getdVO().getDname());//얘도 중요********
+		dtm_sal.addRow(oneRow);
+		*/
+		for(int r=0;r<1;r++) {
+			//for(int c=0;c<2;c++) {
+				dtm_sal.setValueAt(eVO.getEname(), r, 0);
+				dtm_sal.setValueAt(eVO.getdVO().getDname(), r, 1);
+			//}
+		}
+	}/////////////////////end of getEmpDetail
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		Object obj = ae.getSource();//버튼의 주소번지 출력 예)@abcd1234
@@ -89,26 +109,8 @@ public class SalaryMgr implements ActionListener {
 			//System.gc();//쓰레기값 청소해주세요. 호출하더라도 스레드에 의해 순서대로 처리됨. 즉시 처리안됨/
 		}else if("조회".equals(command)) {
 			System.out.println("조회버튼 이벤트 감지");
-			EmpVO  eVO = new EmpVO();
-			eVO.setEname("이순신");
-			DeptVO dVO = new DeptVO();
-			dVO.setDname("개발1팀");
-			eVO.setdVO(dVO); //얘가 핵심 부분!!!!!!!!!!!!!!!!!!!**
-			//java.util에서 제공되는 클래스로 타입에 대한 제약없이 늘었다줄었다함.
-			//연관있는 레코드를 한번에 밀어넣기 위해서 사용함.
-			/*
-			Vector oneRow = new Vector();
-			oneRow.addElement(eVO.getEname());
-			oneRow.addElement(eVO.getdVO().getDname());//얘도 중요********
-			dtm_sal.addRow(oneRow);
-			*/
-			for(int r=0;r<1;r++) {
-				//for(int c=0;c<2;c++) {
-					dtm_sal.setValueAt(eVO.getEname(), r, 0);
-					dtm_sal.setValueAt(eVO.getdVO().getDname(), r, 1);
-				//}
-			}
+			getEmpDetail(7566);
 		}
-	}
+	}///////////////////////////end actionPerformed
 
 }

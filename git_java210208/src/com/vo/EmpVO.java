@@ -8,14 +8,17 @@ public class EmpVO {
 		this.dVO = dVO;
 	}
 	//급여명세서에 부서이름을 출력하기 위한 SELECT문을 가지고 결정해 보세요.
+	//여기 변수들은 모두 private으로 한다. - 캡슐레이션(은닉화) - 보호(위변조), 직접 값을 변경불가
+	//각각의 값을 유지하거나 재사용하는 문제는 인스턴스화에 따라 가각 다르게 활용가능함.
+	//값을 초기화하는 방법에 대해서는... 두 가지가 있음. 1) setter 2)생성자 이용
 	private DeptVO dVO	    =null;
 	private int	 empno      =0;// 7566 사원번호
 	private String ename    ="";//사원명
 	private String job      ="";// 
 	private int	 mgr        =0;//그룹코드 
 	private String hiredate ="";//입사일자
-	private double sal      =0;// 급여
-	private double comm     =0;// 인센티브
+	private double sal      =0.0;// 급여
+	private double comm     =0.0;// 인센티브
 	//릴레이션은 부모로부터 내려받은 속성이다.
 	private int    deptno   =0;// 부서번호(FK)-외래키-조인시에 사용되는 컬럼-릴레이션이다.
 	//생성자의 경우 생략할 수 있고 생략되었을 때 JVM이 대신 제공해줌.
@@ -23,6 +26,19 @@ public class EmpVO {
 	public EmpVO() {} //153패이지
 	public EmpVO(int empno) {
 		this.empno = empno; //대입연산자 - 그 값(지변)이 유지(다른클래스에서) 됨.
+	}
+	public EmpVO(int empno,String ename,String job, int mgr
+			,String hiredate,double sal, double comm
+			,int deptno, DeptVO dVO) {
+		this.empno    = empno; //대입연산자 - 그 값(지변)이 유지(다른클래스에서) 됨.
+		this.ename    = ename; //전변과 초기화를 작성. 외부에서도 그 값을 유지 또는 활용가능함.
+		this.job   	  = job;
+		this.mgr   	  = mgr;
+		this.hiredate = hiredate;
+		this.sal	  = sal;
+		this.comm	  = comm;
+		this.deptno   = deptno;
+		this.dVO	  = dVO;
 	}
 	  public int getEmpno() {
 		return empno;
