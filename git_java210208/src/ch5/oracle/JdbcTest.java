@@ -16,7 +16,7 @@ import com.vo.EmpVO;
 public class JdbcTest {
 	//선언부
 	static final String _DRIVER = "oracle.jdbc.driver.OracleDriver";
-	static final String _URL    = "jdbc:oracle:thin:@192.168.0.36:1521:orcl11";
+	static final String _URL    = "jdbc:oracle:thin:@172.30.1.6:1521:orcl11";
 	String				_USER   = "scott";
 	String				_PW     = "tiger";
 	//물리적으로 떨어져 있는 서버에 연결통로 만들기

@@ -69,7 +69,7 @@ public class ProcEmpUpdate1 extends JFrame {
 	  
 	      String user_input = JOptionPane.showInputDialog("사원번호를 입력하세요");
 	      int empno = 0;
-	      if(user_input !=null || user_input.length()>1) {
+	      if(user_input !=null|| user_input.length()>1) {
 	         empno = Integer.parseInt(user_input);
 	      }
 	      neu1.salUpdate(empno);
