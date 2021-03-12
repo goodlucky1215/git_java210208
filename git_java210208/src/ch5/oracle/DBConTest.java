@@ -2,7 +2,7 @@ package ch5.oracle;
 
 import java.sql.Connection;
 
-import com.until.DBConnectionMgr;
+import com.util.DBConnectionMgr;
 
 public class DBConTest {
 

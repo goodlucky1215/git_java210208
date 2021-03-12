@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.until.DBConnectionMgr;
+import com.util.DBConnectionMgr;
 
 public class NoProcEmpUpdate1 extends JFrame {
 	   Connection con1 = null;

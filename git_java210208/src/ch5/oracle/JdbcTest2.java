@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.until.DBConnectionMgr;
+import com.util.DBConnectionMgr;
 import com.vo.EmpVO;
 
 /*
