@@ -1,4 +1,4 @@
-package com.until;
+package com.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 public class DBConnectionMgr {
 	private static final String _DRIVER = "oracle.jdbc.driver.OracleDriver";
 	//private static final String _URL    = "jdbc:oracle:thin:@172.30.1.17:1521:orcl11";
-	private static final String _URL    = "jdbc:oracle:thin:@192.168.0.47:1521:orcl11";
-	private static final String _USER   = "scott";
+	private static final String _URL    = "jdbc:oracle:thin:@192.168.0.4:1521:orcl11";
+	private static final String _USER   = "SCOTT";
 	private static final String _PW     = "tiger";
 	private static DBConnectionMgr dbMgr = null;
 	//이른 인스턴스화 eager
