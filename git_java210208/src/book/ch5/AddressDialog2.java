@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import com.until.DBConnectionMgr;
+import com.util.DBConnectionMgr;
 import com.vo.DeptVO;
 
 public class AddressDialog2 extends JDialog implements ActionListener {

@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.until.DBConnectionMgr;
+import com.util.DBConnectionMgr;
 import com.vo.DeptVO;
 import com.vo.EmpVO;
 
