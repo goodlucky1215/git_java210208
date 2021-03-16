@@ -43,45 +43,45 @@ Window 및 / 또는 해당 소유자가 아직 표시 가능하지 않은 경우
 false이면이 Window, 하위 구성 요소 및 모든 소유 자식을 숨 깁니다. Window 및 해당 하위 구성
 요소는 #setVisible (true)를 호출하여 다시 표시 할 수 있습니다.
  */
-public class ZipCodeSearch extends JFrame implements MouseListener
+public class ZipCodeSearchVer2 extends JFrame implements MouseListener
                                                    , ItemListener
                                                    , FocusListener
                                                    , ActionListener {
 	//선언부
-	String zdo = null;
-	//물리적으로 떨어져 있는 db서버와 연결통로 만들기
-	Connection 			con 	= null;
-	//위에서 연결되면 쿼리문을 전달할 전령의 역할을 하는 인터페이스 객체 생성하기
-	PreparedStatement 	pstmt 	= null;
-	//조회된 결과를 화면에 처리해야 하므로 오라클에 커서를 조작하기 위해 ResultSet추가
-	ResultSet 			rs 		= null;
-	JPanel jp_north = new JPanel();
-	//insert here
-	String zdos[] = {"전체","서울","경기","강원"};
-	String zdos2[] = {"전체","부산","전남","대구"};
-	Vector<String> vzdos = new Vector<>();//vzdos.size()==>0
-	JComboBox jcb_zdo = new JComboBox(zdos);//West
-	JComboBox jcb_zdo2 = null;//West
-	JTextField jtf_search = new JTextField("동이름을 입력하세요.");//Center
-	JButton jbtn_search = new JButton("조회");//East
-	String cols[] = {"우편번호","주소"};
-	String data[][] = new String[0][2];
-	DefaultTableModel dtm_zipcode = new DefaultTableModel(data,cols);
-	JTable jtb_zipcode = new JTable(dtm_zipcode);
-	JTableHeader jth = jtb_zipcode.getTableHeader();
-	JScrollPane jsp_zipcode = new JScrollPane(jtb_zipcode
-			,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-			,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	String zdos3[] = null;
-	MemberShip memberShip = null;
-	//생성자
-	public ZipCodeSearch() {
-		zdos3 = getZdoList();
-	}
-	public ZipCodeSearch(MemberShip memberShip) {
-		this();
-		this.memberShip = memberShip;
-	}
+		String zdo = null;
+		//물리적으로 떨어져 있는 db서버와 연결통로 만들기
+		JPanel jp_north = new JPanel();
+		//insert here
+		String zdos[] = {"전체","서울","경기","강원"};
+		String zdos2[] = {"전체","부산","전남","대구"};
+		Vector<String> vzdos = new Vector<>();//vzdos.size()==>0
+		JComboBox jcb_zdo = new JComboBox(zdos);//West
+		JComboBox jcb_zdo2 = null;//West
+		JTextField jtf_search = new JTextField("동이름을 입력하세요.");//Center
+		JButton jbtn_search = new JButton("조회");//East
+		String cols[] = {"우편번호","주소"};
+		String data[][] = new String[0][2];
+		DefaultTableModel dtm_zipcode = new DefaultTableModel(data,cols);
+		JTable jtb_zipcode = new JTable(dtm_zipcode);
+		JTableHeader jth = jtb_zipcode.getTableHeader();
+		JScrollPane jsp_zipcode = new JScrollPane(jtb_zipcode
+				,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+				,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		String zdos3[] = null;
+		MemberShip memberShip = null;
+		//DB연동에 필요한 선언
+		DBConnectionMgr     dbMgr   = DBConnectionMgr.getInstance();
+		Connection 			con 	= null;
+		PreparedStatement 	pstmt 	= null;
+		ResultSet 			rs 		= null;
+		//생성자
+		public ZipCodeSearchVer2() {
+			zdos3 = getZdoList();
+		}
+		public ZipCodeSearchVer2(MemberShip memberShip) {
+			this();
+			this.memberShip = memberShip;
+		}
 	//화면처리부
 	public void initDisplay() {
 		jtb_zipcode.requestFocus();
@@ -117,6 +117,43 @@ public class ZipCodeSearch extends JFrame implements MouseListener
 		this.setTitle("우편번호 검색");
 		this.setSize(430, 400);
 		this.setVisible(true);
+	}
+	//콤보박스에 뿌려질 ZDO컬럼의 정보를 오라클 서버에서 꺼내 오기
+	public String[] getZDOList() {
+		//조회 결과를 받을 1차 문자 배열 선언. 초기화는 안함.
+		String zdos[] = null;
+		//오라클 서버에 보낼  select문 작성하기
+		//String자체는 원본이 바뀌지 않는 특성을 가진다.
+		//StringBuilder는 단일 스레드 안전하고
+		//StringBuffer는 다중 스레드 안전하다.
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT '전체' zdo FROM dual      ");
+		sb.append("UNION ALL                        ");
+		sb.append("SELECT zdo                       ");
+		sb.append("  FROM (                         ");
+		sb.append("        SELECT distinct(zdo) zdo ");
+		sb.append("          FROM zipcode_t         ");
+		sb.append("        ORDER BY zdo asc         ");
+		sb.append("       )                         ");
+		try {
+			con = dbMgr.getConnection();
+			pstmt = con.prepareStatement(sb.toString());
+			rs = pstmt.executeQuery();
+			Vector<String> v = new Vector<>();
+			List<String> v2 = new Vector<>();
+			while(rs.next()) {
+				String zdo = rs.getString("zdo");
+				v.add(zdo);
+			}
+			zdos = new String[v.size()];
+			v.copyInto(zdos);
+			//v2.copyInto(zdos);
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			
+		}
+		return zdos;
 	}
 	//메인메소드
 	public static void main(String[] args) {
