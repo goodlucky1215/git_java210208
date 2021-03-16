@@ -77,11 +77,12 @@ public class TimeServer extends Thread {
 	//본만큼 구현하는 것이다.
 	//main메소드도 스레드이다.(default thread이다) - entry point - static
 	public static void main(String[] args) {
-		int port = 3000;//포트번호 지정
+		int port = 3000;//서버의 포트번호 지정
 		boolean isFlag = false;//서버를 탈출 시킬 수 있는 수단
 		ServerSocket  server = null;//기다림....클라이언트가 접속할 때까지 new Socket("192.168.0.23",3000)
 		Socket client = null;
 		try {
+			System.out.println("TimeServer Start");
 			server = new ServerSocket(port);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -98,7 +99,9 @@ public class TimeServer extends Thread {
 				//initDisplay();여기에 있으면 화면이 절대 나오지 못할수도 있다. *위치와 순서가 중요, input-operation-output 소통의 시작점
 				System.out.println("New Client connected..."+client.toString()+"\n");
 				TimeServer ts = new TimeServer(client);
+				System.out.println("44");
 				ts.start();
+				System.out.println("55");
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			}
