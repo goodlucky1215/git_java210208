@@ -37,6 +37,7 @@ public class A {
 		//int my3 = (int)f1.get(0);
 		//< >는 내안에 어떤 타입이 있는지를 명시하는 것이다.
 		ArrayList<String> f2 = new ArrayList<String>();
+		//ArrayList<int> f3 = new ArrayList<int>();
 		f2.add("수박");
 		f2.add("딸기");
 		f2.add("키위");
