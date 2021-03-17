@@ -33,7 +33,7 @@ public class TalkClientThread extends Thread {
 				switch(protocol) {
 				case Protocol.ROOM_IN:{
 					String nickName = st.nextToken();//
-					tc.jta_display.append(nickName+"님이 입장하였습니다.");
+					tc.jta_display.append(nickName+"님이 입장하였습니다. \n");
 				};
 				//case 200:{ 이렇게 숫자로 바로바로 적어서 프로토콜을 쓰기보다는 따로 protocol 클래스 안에 변수를 만들어서 무슨 의미인지 확실하게  보여줘야함. 개발은 혼자 하는게 아니잖아?
 				case Protocol.MESSAGE:{
