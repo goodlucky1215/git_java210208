@@ -1,0 +1,11 @@
+package design.duck;
+
+public class Squeak implements QuackBehavior {
+
+	@Override
+	public void quack() {
+		System.out.println("삐이이익~~삐익~");
+
+	}
+
+}
