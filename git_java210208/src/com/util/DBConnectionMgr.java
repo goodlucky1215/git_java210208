@@ -73,4 +73,18 @@ public class DBConnectionMgr {
 			System.out.println("오라클 서버와 연결 실패");
 		}
 	}
+	
+	public void freeConnection(Connection con, CallableStatement cstmt, ResultSet rs) {
+		try {
+			if(rs !=null) rs.close();
+			if(cstmt!=null)cstmt.close();
+			if(con!=null)con.close();
+		}catch(Exception e) {
+			System.out.println("오라클 서버와 연결 실패");
+		}
+	}
+	/*
+     * 주의: 사용한 자원은 반드시 명시적으로 반납할 것.
+     * 안하면 오라클 서버로 세션을 종료 당함. 오라클 서버의 세션 수가 정해져 있어서 끊기게 됨. 
+     */
 }
