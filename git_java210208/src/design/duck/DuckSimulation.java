@@ -3,6 +3,7 @@ package design.duck;
 public class DuckSimulation {
 
 	public static void main(String[] args) {
+		//Duck myDuck = new Duck();
 		Duck myDuck = new WoodDuck();
 		myDuck.display();
 		myDuck.performFly();
