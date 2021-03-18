@@ -50,7 +50,7 @@ public class TalkClient2 extends JFrame implements ActionListener{
 	public void init() {
 		try {
 			//소켓 생성하기 - ip, port - 서버측ServerSocket연결됨.
-			socket = new Socket("172.30.1.23",3000);
+			socket = new Socket("192.168.0.50",3000);
 			oos	   = new ObjectOutputStream(socket.getOutputStream());
 			ois	   = new ObjectInputStream(socket.getInputStream());
 			oos.writeObject(100+"#"+nickName);

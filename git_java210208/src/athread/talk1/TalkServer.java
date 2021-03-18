@@ -35,7 +35,7 @@ public class TalkServer extends JFrame  implements Runnable{
 	public static void main(String[] args) {
 		TalkServer ts = new TalkServer();
 		ts.initDisplay();
-		Thread th = new Thread(ts);
+		Thread th = new Thread(ts);//서버스레드가 생성됨
 		th.start();//run메소드가 호출 됩니다.
 
 	}
