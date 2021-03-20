@@ -1,0 +1,11 @@
+Server Ready.........
+client info:Socket[addr=/172.30.1.5,port=62074,localport=3002]
+100#뽀
+뽀님이 입장하였습니다.
+client info:Socket[addr=/172.30.1.5,port=62083,localport=3002]
+100#QH
+QH님이 입장하였습니다.
+201#QH#sdfsdf
+201#QH#dfsfsdf
+201#QH#sd
+201#QH#fs
