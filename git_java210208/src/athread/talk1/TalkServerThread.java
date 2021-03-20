@@ -73,7 +73,7 @@ public class TalkServerThread extends Thread {
 						int protocol = 0;
 						if(msg!=null) {
 							st = new StringTokenizer(msg,"#");
-							protocol = Integer.parseInt(st.nextToken());//100
+							protocol = Integer.parseInt(st.nextToken());
 						}
 						switch(protocol) {
 							case 200:{
