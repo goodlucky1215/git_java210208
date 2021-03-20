@@ -49,7 +49,7 @@ Window 및 / 또는 해당 소유자가 아직 표시 가능하지 않은 경우
 false이면이 Window, 하위 구성 요소 및 모든 소유 자식을 숨 깁니다. Window 및 해당 하위 구성
 요소는 #setVisible (true)를 호출하여 다시 표시 할 수 있습니다.
  */
-public class ZipCodeSearchVer2 extends JFrame implements MouseListener
+public class ZipCodeSearchVer3 extends JFrame implements MouseListener
                                                    , ItemListener
                                                    , FocusListener
                                                    , ActionListener {
@@ -87,23 +87,75 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 	PreparedStatement 	pstmt 	= null;
 	ResultSet 			rs 		= null;
 	//생성자
-	public ZipCodeSearchVer2() {
+	public ZipCodeSearchVer3() {
 		zdos3    = getZDOList();
 		sigus	 = getSIGUList();
 		dongs	 = getDONGList();
 		jcb_zdo  = new JComboBox(zdos3);//West
-		jcb_sigu = new JComboBox(totals);//West
+		jcb_sigu = new JComboBox(sigus);//West
 		jcb_dong = new JComboBox(totals);//West
 	}
 	private String[] getDONGList() {
-		// TODO Auto-generated method stub
-		return null;
+		String dongs[]   = null;
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT '전체' dong FROM dual				");
+		sb.append("UNION ALL								");
+		sb.append("SELECT dong								");
+		sb.append("FROM (									");
+		sb.append("			SELECT distinct(dong) dong		");
+		sb.append("			FROM   zipcode_t				");
+		sb.append("			WHERE  zdo = ? AND sigu = ?	AND dong IS NOT null");
+		sb.append("			ORDER BY dong asc		        ");
+		sb.append("		) 									");
+		try {
+			con = dbMgr.getConnection();
+			pstmt = con.prepareStatement(sb.toString());
+			int i = 0;
+			pstmt.setString(++i,zdo);
+			pstmt.setString(++i,sigu);
+			rs = pstmt.executeQuery();
+			Vector<String> v = new Vector<>();
+			while(rs.next()) {
+				String dong = rs.getString("dong");
+				v.add(dong);
+			}
+			dongs = new String[v.size()];
+			v.copyInto(dongs);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return dongs;
 	}
 	private String[] getSIGUList() {
-		// TODO Auto-generated method stub
-		return null;
+		String  sigus[] = null;
+		StringBuilder sb = new StringBuilder(); 
+		sb.append("SELECT '전체' 	sigu FROM dual			 ");
+		sb.append("UNION ALL	 					     ");
+		sb.append("SELECT sigu 						     ");
+		sb.append("FROM  (	  					     	 ");
+		sb.append("			SELECT   distinct(sigu) sigu ");
+		sb.append("			FROM     zipcode_t 		     ");
+		sb.append(" 		WHERE    zdo = ?			 ");
+		sb.append(" 		ORDER BY sigu asc		     ");
+		sb.append(" 	 )							     ");
+		try {
+			con = dbMgr.getConnection();
+			pstmt = con.prepareStatement(sb.toString());
+			pstmt.setString(1, zdo);
+			rs = pstmt.executeQuery();
+			Vector<String> v = new Vector<>();
+			while(rs.next()) {
+				String sigu = rs.getString("sigu");
+				v.add(sigu);
+			}
+			sigus = new String[v.size()];
+			v.copyInto(sigus);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return sigus;
 	}
-	public ZipCodeSearchVer2(MemberShip memberShip) {
+	public ZipCodeSearchVer3(MemberShip memberShip) {
 		this();
 		this.memberShip = memberShip;
 	}
@@ -140,7 +192,7 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 		jp_north.add(jcb_zdo);
 		jp_north.add(jcb_sigu);
 		jp_north.add(jcb_dong);
-		jp_north.add("West",jcb_zdo);
+		jp_north.add("West",jcb_dong);
 		jp_north.add("Center",jtf_search);
 		jp_north.add("East",jbtn_search);
 		this.add("North",jp_north);
@@ -178,7 +230,6 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 			}
 			zdos = new String[v.size()];
 			v.copyInto(zdos);
-			//v2.copyInto(zdos);
 		} catch (Exception e) {
 			// TODO: handle exception
 		} finally {
@@ -228,7 +279,7 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 	//메인메소드
 	public static void main(String[] args) {
 		JFrame.setDefaultLookAndFeelDecorated(true);
-		ZipCodeSearchVer2 zcs = new ZipCodeSearchVer2();
+		ZipCodeSearchVer3 zcs = new ZipCodeSearchVer3();
 		zcs.initDisplay();
 	}
 	@Override
@@ -244,9 +295,8 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 		// TODO Auto-generated method stub
 		
 	}
-	public void refreshData(String zdo, String dong) {
-		System.out.println("zdo:"+zdo+", dong:"+dong);
-		
+	public void refreshData(String zdo,String sigu, String dong,String mydong) {
+		System.out.println("zdo:"+zdo+", sigu:"+sigu+", dong:"+dong);
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT address, zipcode");
 		sql.append("  FROM zipcode_t");
@@ -254,7 +304,13 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 		if(zdo!=null && zdo.length()>0) {
 			sql.append(" AND zdo=?");
 		}
+		if(sigu!=null && sigu.length()>0) {
+			sql.append(" AND sigu=?");
+		}
 		if(dong!=null && dong.length()>0) {
+			sql.append(" AND dong=?");
+		}
+		if(mydong!=null && mydong.length()>0) {
 			sql.append(" AND dong LIKE '%'||?||'%'");
 		}
 		int i=1;
@@ -264,9 +320,15 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 			if(zdo!=null && zdo.length()>0) {
 				pstmt.setString(i++,zdo);
 			}
+			if(sigu!=null && sigu.length()>0) {
+				pstmt.setString(i++,sigu);
+			}
 			if(dong!=null && dong.length()>0) {
 				pstmt.setString(i++,dong);
-			}			
+			}
+			if(mydong!=null && mydong.length()>0) {
+				pstmt.setString(i++,mydong);
+			}
 			rs = pstmt.executeQuery();
 			Vector<ZipCodeVO> v = new Vector<>();
 			ZipCodeVO[] zVOS = null;
@@ -314,7 +376,7 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 		Object obj = e.getSource();
 		if(obj == jbtn_search || obj == jtf_search) {
 			String myDong = jtf_search.getText();
-			refreshData(zdo,myDong);
+			refreshData(zdo,sigu,dong,myDong);
 		}
 		
 	}
@@ -324,9 +386,33 @@ public class ZipCodeSearchVer2 extends JFrame implements MouseListener
 		if(obj == jcb_zdo) {
 			if(e.getStateChange() == ItemEvent.SELECTED) {
 				zdo = zdos3[jcb_zdo.getSelectedIndex()];
+				System.out.println(zdo);
+				//if(zdo=="전체")System.out.println("dfs");이거 인식 안돼는 이유
+				if(jcb_zdo.getSelectedIndex()==0) zdo=null;
+				jcb_sigu.removeAllItems();
+				sigus	 = getSIGUList();
+				for(int i=0;i<sigus.length;i++) {
+					jcb_sigu.addItem(sigus[i]);
+				}
 			}
 		}
-		
+		if(obj == jcb_sigu) {
+			if(e.getStateChange() == ItemEvent.SELECTED){
+				sigu = sigus[jcb_sigu.getSelectedIndex()];
+				if(jcb_sigu.getSelectedIndex()==0) sigu=null;
+				jcb_dong.removeAllItems();
+				dongs	= getDONGList();
+				for(int i=0;i<dongs.length;i++) {
+					jcb_dong.addItem(dongs[i]);
+				}
+			}
+		}
+		if(obj == jcb_dong) {
+			if(e.getStateChange() == ItemEvent.SELECTED){
+				dong = dongs[jcb_dong.getSelectedIndex()];
+				if(jcb_dong.getSelectedIndex()==0) dong=null;
+			}
+		}
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
