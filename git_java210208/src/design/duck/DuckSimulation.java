@@ -1,13 +1,15 @@
 package design.duck;
 
-public class DuckSimulation {
+public class DuckSimulation{
 
 	public static void main(String[] args) {
-		//Duck myDuck = new Duck();
+		//Duck myDuck1 = new Duck();
 		Duck myDuck = new WoodDuck();
+		int b = myDuck.i+10;
 		myDuck.display();
 		myDuck.performFly();
 		myDuck.performQuack();
+		myDuck.swimming();
 		System.out.println();
 		Duck herDuck = new RubberDuck();
 		herDuck.display();
