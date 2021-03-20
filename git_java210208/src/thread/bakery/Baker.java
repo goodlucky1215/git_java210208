@@ -11,7 +11,7 @@ public class Baker extends Thread{
 		bread = getBread();
 		bs.push(bread);
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(6000);
 		} catch (InterruptedException e) {
 			System.out.println("너는 누구야~~~~~~~~");
 		}

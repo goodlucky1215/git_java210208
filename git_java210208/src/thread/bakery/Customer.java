@@ -5,7 +5,7 @@ public class Customer extends Thread{
 	public Customer(BakerStack bs) {
 		this.bs = bs;
 	}
-	public void run() {
+	public synchronized void run() {
 		String bread = null;
 		bread = bs.pop();
 		try {
