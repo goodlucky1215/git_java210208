@@ -4,5 +4,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/workspace_java80/gson-2.8.6.jar"/>
 	<classpathentry kind="lib" path="C:/app/ariel/product/11.1.0/db_1/jdbc/lib/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="C:/workspace_java80/spring-beans-4.3.30.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/workspace_java80/spring-context-4.3.30.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/workspace_java80/spring-core-4.3.30.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/workspace_java80/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/workspace_java80/spring-expression-4.3.30.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
