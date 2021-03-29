@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,13 +15,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import common.jdbc.MemberDao;
-public class LoginForm extends JFrame implements ActionListener {
+public class LoginForm extends JDialog implements ActionListener {
 	String imgPath = "src\\com\\design\\zipcode\\";
+	MemberShip ms = new MemberShip();
 	ImageIcon ig 		= new ImageIcon(imgPath+"main.png");
 	JLabel jlb_id 		= new JLabel("아이디");
-	JTextField jtf_id 	= new JTextField("");
+	JTextField jtf_id 	= new JTextField("test");
 	JLabel jlb_pw 		= new JLabel("비밀번호");
-	JPasswordField jtf_pw 	= new JPasswordField("");
+	JPasswordField jtf_pw 	= new JPasswordField("123");
 	Font font = new Font("휴먼매직체",Font.BOLD, 17);
 	JButton jbtn_login =
 			new JButton(
@@ -43,6 +45,7 @@ public class LoginForm extends JFrame implements ActionListener {
 	}
 	public void initDisplay() {
 		jbtn_login.addActionListener(this);
+		jbtn_join.addActionListener(this);
 		this.setContentPane(new MyPanel());
 		this.setLayout(null);//디폴트 - BorderLayout
 		jlb_id.setBounds(45, 200, 80, 40);
@@ -71,7 +74,11 @@ public class LoginForm extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if(jbtn_login==obj) {
+		if(jbtn_join==obj) {
+			ms.initDisplay();
+			this.dispose();
+		}
+		else if(jbtn_login==obj) {
 			MemberDao md = new MemberDao();
 			if("".equals(jtf_id.getText())||"".equals(jtf_pw.getText())) {
 				JOptionPane.showMessageDialog(this,"아이디와 비번을 확인하세요.");

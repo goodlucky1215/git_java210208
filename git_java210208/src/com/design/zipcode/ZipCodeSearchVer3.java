@@ -301,13 +301,13 @@ public class ZipCodeSearchVer3 extends JFrame implements MouseListener
 		sql.append("SELECT address, zipcode");
 		sql.append("  FROM zipcode_t");
 		sql.append(" WHERE 1=1");
-		if(zdo!=null && zdo.length()>0) {
+		if(zdo!=null && zdo.length()>0 && !"전체".equals(zdo)) {
 			sql.append(" AND zdo=?");
 		}
-		if(sigu!=null && sigu.length()>0) {
+		if(sigu!=null && sigu.length()>0 && !"전체".equals(sigu)) {
 			sql.append(" AND sigu=?");
 		}
-		if(dong!=null && dong.length()>0) {
+		if(dong!=null && dong.length()>0 && !"전체".equals(dong)) {
 			sql.append(" AND dong=?");
 		}
 		if(mydong!=null && mydong.length()>0) {
@@ -317,13 +317,13 @@ public class ZipCodeSearchVer3 extends JFrame implements MouseListener
 		try {
 			con = dbMgr.getConnection();
 			pstmt = con.prepareStatement(sql.toString());
-			if(zdo!=null && zdo.length()>0) {
+			if(zdo!=null && zdo.length()>0 && !"전체".equals(zdo)) {
 				pstmt.setString(i++,zdo);
 			}
-			if(sigu!=null && sigu.length()>0) {
+			if(sigu!=null && sigu.length()>0 && !"전체".equals(sigu)) {
 				pstmt.setString(i++,sigu);
 			}
-			if(dong!=null && dong.length()>0) {
+			if(dong!=null && dong.length()>0 && !"전체".equals(dong)) {
 				pstmt.setString(i++,dong);
 			}
 			if(mydong!=null && mydong.length()>0) {
@@ -382,13 +382,12 @@ public class ZipCodeSearchVer3 extends JFrame implements MouseListener
 	}
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+		//Object obj = e.getSource().getClass();
 		Object obj = e.getSource();
+		//if(obj == JComboBox.class) {
 		if(obj == jcb_zdo) {
 			if(e.getStateChange() == ItemEvent.SELECTED) {
 				zdo = zdos3[jcb_zdo.getSelectedIndex()];
-				System.out.println(zdo);
-				//if(zdo=="전체")System.out.println("dfs");이거 인식 안돼는 이유
-				if(jcb_zdo.getSelectedIndex()==0) zdo=null;
 				jcb_sigu.removeAllItems();
 				sigus	 = getSIGUList();
 				for(int i=0;i<sigus.length;i++) {
@@ -399,7 +398,6 @@ public class ZipCodeSearchVer3 extends JFrame implements MouseListener
 		if(obj == jcb_sigu) {
 			if(e.getStateChange() == ItemEvent.SELECTED){
 				sigu = sigus[jcb_sigu.getSelectedIndex()];
-				if(jcb_sigu.getSelectedIndex()==0) sigu=null;
 				jcb_dong.removeAllItems();
 				dongs	= getDONGList();
 				for(int i=0;i<dongs.length;i++) {
@@ -410,7 +408,6 @@ public class ZipCodeSearchVer3 extends JFrame implements MouseListener
 		if(obj == jcb_dong) {
 			if(e.getStateChange() == ItemEvent.SELECTED){
 				dong = dongs[jcb_dong.getSelectedIndex()];
-				if(jcb_dong.getSelectedIndex()==0) dong=null;
 			}
 		}
 	}
