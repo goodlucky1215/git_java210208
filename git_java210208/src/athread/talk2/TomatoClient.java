@@ -109,7 +109,7 @@ public class TomatoClient extends JFrame implements ActionListener{
 	public void init() {
 		try {
 			//서버측의 ip주소 작성하기
-			socket = new Socket("172.30.1.5",3002);
+			socket = new Socket("192.168.0.50",3002);
 			//TS ServerSocket감지 -> client = server.accept(); //클라이언트 소켓에 대한 정보 갖음.
 			//홀수 소켓에 대한 처리
 			oos = new ObjectOutputStream(socket.getOutputStream());

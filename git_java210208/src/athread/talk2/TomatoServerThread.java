@@ -27,7 +27,7 @@ public class TomatoServerThread extends Thread{
 			for(TomatoServerThread tst:ts.globalList) {
 			//이전에 입장해 있는 친구들 정보 받아내기
 				//String currentName = tst.chatName;
-				this.send(100+"#"+tst.chatName);
+				this.send(Protocol.ROOM_IN+"#"+tst.chatName);
 			}
 			//현재 서버에 입장한 클라이언트 스레드 추가하기
 			ts.globalList.add(this);
