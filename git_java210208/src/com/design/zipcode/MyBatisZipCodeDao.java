@@ -33,7 +33,7 @@ public class MyBatisZipCodeDao {
 		SqlSession sqlSession = null;
 	    try {
 	    	sqlSession = sqlSessionFactory.openSession();
-	    	zipcodeList = sqlSession.selectList("refreshData",pzVO);
+	    	zipcodeList = sqlSession.selectList("refreshData");
 	    	System.out.println(zipcodeList.size());
 		} catch (Exception e) {
 			System.out.println("[[Exception]]"+e.toString());
