@@ -9,9 +9,9 @@ import java.util.Vector;
  * @param tomatoClient
  **************************************/
 public class TomatoClientThread extends Thread{
-	TomatoClient tc = null;
-	public TomatoClientThread(TomatoClient tc) {
-		this.tc = tc;
+	TomatoClientVer2 tc = null;
+	public TomatoClientThread(TomatoClientVer2 tomatoClientVer2) {
+		this.tc = tomatoClientVer2;
 	}
 	@Override
 	public void run() {
@@ -27,7 +27,7 @@ public class TomatoClientThread extends Thread{
 					protocol = Integer.parseInt(st.nextToken());//100
 				}
 				switch(protocol) {
-					case 100:{//100#apple
+					case Protocol.ROOM_IN:{//100#apple
 						String nickName = st.nextToken();
 						tc.jta_display.append(nickName+"님이 입장하였습니다.\n");
 						Vector<String> v = new Vector<>();

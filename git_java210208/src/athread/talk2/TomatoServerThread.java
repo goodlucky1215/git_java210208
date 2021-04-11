@@ -16,13 +16,14 @@ public class TomatoServerThread extends Thread{
 		this.ts	 =  ts;
 		this.client = ts.socket;
 		try {
-			oos = new ObjectOutputStream(client.getOutputStream());
-			ois = new ObjectInputStream(client.getInputStream());
-			String msg = (String)ois.readObject();
-			ts.jta_log.append(msg+"\n");
-			StringTokenizer st = new StringTokenizer(msg,"#");
-			st.nextToken();//100
-			chatName = st.nextToken();
+			oos = new ObjectOutputStream(client.getOutputStream());//홀수 소켓
+			ois = new ObjectInputStream(client.getInputStream());//짝수 소켓
+			//130#지혜지혜[청취]
+			String msg = (String)ois.readObject();//듣기
+			ts.jta_log.append(msg+"\n");//서버 출력
+			StringTokenizer st = new StringTokenizer(msg,"#");//자르기
+			st.nextToken();//130
+			chatName = st.nextToken();//지혜지혜
 			ts.jta_log.append(chatName+"님이 입장하였습니다.\n");
 			for(TomatoServerThread tst:ts.globalList) {
 			//이전에 입장해 있는 친구들 정보 받아내기
@@ -30,8 +31,8 @@ public class TomatoServerThread extends Thread{
 				this.send(Protocol.ROOM_IN+"#"+tst.chatName);
 			}
 			//현재 서버에 입장한 클라이언트 스레드 추가하기
-			ts.globalList.add(this);
-			this.broadCasting(msg);
+			ts.globalList.add(this);//만약에 첫 사람이라면 앞에 for문은 안타고 스레드가 추가됨.
+			this.broadCasting(msg);//방송 - 1명에게만 전송
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -68,20 +69,24 @@ public class TomatoServerThread extends Thread{
 						protocol = Integer.parseInt(st.nextToken());//100
 					}
 					switch(protocol) {
-						case 200:{
-							
-						}break;
-						case 201:{
+						case Protocol.MESSAGE:{
 							String nickName = st.nextToken();
 							String message = st.nextToken();
 							broadCasting(201
 									   +"#"+nickName
 									   +"#"+message);
 						}break;
-						case 202:{
-
+						case Protocol.CHANGE:{//300#하하#하늘소
+							String nickName  = st.nextToken();
+							String afterName = st.nextToken();
+							String msg1      = st.nextToken();
+							this.chatName    = afterName;//서버측 이름과 동기화 주의할 것.
+							broadCasting(Protocol.CHANGE
+									    +Protocol.seperator+nickName 
+									    +Protocol.seperator+afterName 
+									    +Protocol.seperator+msg1);
 						}break;
-						case 500:{
+						case Protocol.ROOM_OUT:{
 							String nickName = st.nextToken();
 							ts.globalList.remove(this);
 							broadCasting(500
