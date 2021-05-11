@@ -31,19 +31,20 @@ public class HelloMain {
 	public static void main(String[] args) {
 		//ClassPathXmlApplicationContext는 ApplicationContext의 구현체 클래스임.
 		//생성자의 파라미터로 xml문서를 스캔함.
-		
+		//ClassPathXml path라는 말이 있어서 상대경로가 가능
 		ApplicationContext context = new ClassPathXmlApplicationContext("di\\step1\\helloBean.xml");
 		ApplicationContext context2 = new ClassPathXmlApplicationContext("di\\step1\\sonataBean.xml");
-		Sonata himCar = (Sonata)context2.getBean("himCar");
+		Sonata himCar = (Sonata)context2.getBean("himCar"); //getBean이 himCar를 찾아줌, context2가 소유주
 		Sonata herCar = (Sonata)context2.getBean("herCar");
 		System.out.println(himCar);
 		System.out.println(herCar);
+		//FileSystemResour file이라는 말이있어서 절대경로 가능
 		Resource resource = new FileSystemResource("C:\\\\git_java80\\\\git_java210208\\\\git_java210208\\\\src\\\\di\\\\step1\\\\helloBean.xml");
 		BeanFactory factory = new XmlBeanFactory(resource);
 		HelloBean helloBean2 = (HelloBean)factory.getBean("helloBean222");//여기 이름이 id이름과 일치해야함.
 		HelloBean helloBean = (HelloBean)context.getBean("helloBean222");//여기 이름이 id이름과 일치해야함.		
 		System.out.println(helloBean.getGreeting("Hi~~"));
-		System.out.println(helloBean2.getGreeting("Hi~~"));
+		System.out.println(helloBean2.getGreeting("Hi~~"));//string-문자열 클래스급이라서 주입이 가능
 	}
 
 }
